@@ -1,9 +1,8 @@
 services:
   app:
     container_name: nest-app
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: frangauna01/ecommerce-pim4:latest
+    restart: always
     ports:
       - '3000:3000'
     env_file:
