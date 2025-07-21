@@ -1,0 +1,37 @@
+services:
+  app:
+    container_name: nest-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    env_file:
+      - .env.docker
+    depends_on:
+      - db
+
+  db:
+    container_name: postgres-db
+    image: postgres:15
+    restart: always
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  adminer:
+    container_name: adminer
+    image: adminer
+    restart: always
+    ports:
+      - '8080:8080'
+    depends_on:
+      - db
+
+volumes:
+  pgdata:

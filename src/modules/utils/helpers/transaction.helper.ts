@@ -1,0 +1,26 @@
+import { DataSource, QueryRunner } from 'typeorm';
+import { Injectable } from '@nestjs/common';
+
+@Injectable()
+export class TransactionHelper {
+  constructor(private readonly dataSource: DataSource) {}
+
+  async runInTransaction<T>(
+    callback: (queryRunner: QueryRunner) => Promise<T>,
+  ): Promise<T> {
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+
+    try {
+      const result = await callback(queryRunner);
+      await queryRunner.commitTransaction();
+      return result;
+    } catch (error) {
+      await queryRunner.rollbackTransaction();
+      throw error;
+    } finally {
+      await queryRunner.release();
+    }
+  }
+}

@@ -1,0 +1,29 @@
+# Node modules y logs
+node_modules
+npm-debug.log
+
+# Archivos y carpetas de control de versiones y editores
+.git
+.gitignore
+.vscode
+.idea
+
+# Archivos de configuración sensibles o que no se necesitan en la imagen
+.env*
+Dockerfile
+docker-compose*.yml
+
+# Archivos de pruebas y cobertura
+test
+*.spec.ts
+*.test.ts
+coverage
+
+# Carpetas de compilación (si usas multi-stage build)
+dist
+
+# Otros archivos temporales o de configuración local
+.nyc_output
+.jest
+.swc
+*README.md
